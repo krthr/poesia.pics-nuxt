@@ -1,4 +1,5 @@
 import type { UploadResult } from "firebase/storage";
+import type { PoemPayload } from "@/models/poem";
 
 import Sharp from "sharp";
 import { nanoid } from "nanoid";
@@ -12,6 +13,7 @@ import {
   ref,
 } from "@/services/firebase";
 import { ERRORS } from "~/constants/errors";
+import { poemConverter } from "~/models/poem";
 
 const ALLOWED_FILE_TYPES = [
   "image/jpeg",
@@ -19,6 +21,10 @@ const ALLOWED_FILE_TYPES = [
   "image/webp",
   "image/jpg",
 ];
+
+class Poem {
+  constructor(id: string) {}
+}
 
 export default defineEventHandler(async (event) => {
   const id = nanoid(10);
@@ -67,7 +73,7 @@ export default defineEventHandler(async (event) => {
     return sendRedirect(event, `/?error=${ERRORS.UPLOAD_ERROR}`);
   }
 
-  const payload = {
+  const payload: PoemPayload = {
     id,
     image: {
       path: uploadResult.metadata.fullPath,
@@ -75,11 +81,13 @@ export default defineEventHandler(async (event) => {
       width: imageMetadata.width,
       height: imageMetadata.height,
     },
-    poem: "",
   };
 
   try {
-    await setDoc(doc(firestore, "poems", id), payload);
+    await setDoc(
+      doc(firestore, "poems", id).withConverter(poemConverter),
+      payload
+    );
   } catch (error) {
     console.error(error);
     return sendRedirect(event, `/?error=${ERRORS.DOC_CREATION_ERROR}`);
