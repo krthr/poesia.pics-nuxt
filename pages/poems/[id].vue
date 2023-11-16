@@ -1,19 +1,20 @@
 <template>
-  <h1 class="text-2xl font-medium">Poema</h1>
+  <div class="w-full">
+    <div id="poem"></div>
 
-  <img
-    class="lazyload max-w-[400px] w-full"
-    height="auto"
-    :data-src="imagePath"
-    :src="poem.image.preview"
-    :width="poem.image.width"
-    :style="{
-      aspectRatio: poem.image.width / poem.image.height,
-    }"
-  />
-  <p>
-    {{ poem }}
-  </p>
+    <div class="divider"></div>
+
+    <!-- <img
+      class="lazyload max-w-[400px] w-full"
+      height="auto"
+      :data-src="imagePath"
+      :src="poem.image.preview"
+      :width="poem.image.width"
+      :style="{
+        aspectRatio: poem.image.width / poem.image.height,
+      }"
+    /> -->
+  </div>
 </template>
 
 <script setup>

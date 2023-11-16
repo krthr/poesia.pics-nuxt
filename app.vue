@@ -1,11 +1,11 @@
 <template>
   <Topbar />
 
-  <div>
-    <NuxtPage />
+  <div class="w-full p-5">
+    <div class="w-full max-w-xl m-auto">
+      <NuxtPage />
+    </div>
   </div>
-
-  {{ error }}
 </template>
 
 <script setup lang="ts">

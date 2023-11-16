@@ -1,30 +1,15 @@
 <template>
   <div>
-    <form
-      action="/api/poem"
-      method="post"
-      enctype="multipart/form-data"
-      name="form"
-      ref="form"
+    <h1
+      class="mt-10 text-center font-display text-5xl font-bold md:text-7xl md:leading-[5rem]"
     >
-      <input
-        accept="image/jpg,image/jpeg,image/webp,image/png"
-        type="file"
-        name="image"
-        id="image"
-        hidden
-        ref="image"
-        onchange="document.querySelector('#selectImage').setAttribute('disabled', true); form.submit()"
-      />
-
-      <button
-        class="btn"
-        id="selectImage"
-        type="button"
-        onclick="form.image.click()"
-      >
-        <span>Seleccionar imagen</span>
-      </button>
-    </form>
+      Tus imágenes se vuelven <span class="italic font-serif">poesía</span>
+    </h1>
   </div>
+
+  <p class="my-7 text-center text-gray-500 md:text-xl">
+    Con Inteligencia Artificial convertimos tus fotografías en poemas.
+  </p>
+
+  <IndexForm />
 </template>
