@@ -44,5 +44,10 @@
         <Icon class="w-6 h-6" name="ph:upload" />
       </button>
     </div>
+
+    <p class="mt-2 text-center text-sm text-gray-500">
+      Puede que obtengas mejores resultados con fotografías de paisajes y
+      retratos.
+    </p>
   </form>
 </template>

@@ -1,11 +1,13 @@
 <template>
-  <Topbar />
+  <AppTopbar />
 
   <div class="w-full p-5">
     <div class="w-full max-w-xl m-auto">
       <NuxtPage />
     </div>
   </div>
+
+  <AppFooter />
 </template>
 
 <script setup lang="ts">
