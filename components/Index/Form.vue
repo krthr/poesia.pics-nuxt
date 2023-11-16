@@ -6,6 +6,13 @@
     name="form"
     ref="form"
   >
+    <div v-if="error" class="alert alert-error mb-4">
+      <div>
+        <Icon class="w-6 h-6 stroke-current shrink-0 mr-2" name="ph:x-circle" />
+        <span>{{ error.message }}</span>
+      </div>
+    </div>
+
     <input
       accept="image/jpg,image/jpeg,image/webp,image/png"
       type="file"
@@ -51,3 +58,9 @@
     </p>
   </form>
 </template>
+
+<script setup lang="ts">
+import type { ErrorCookie } from "~/server/api/poem.post";
+
+defineProps<{ error?: ErrorCookie }>();
+</script>

@@ -20,6 +20,8 @@ export default {
     ],
   },
 
+  safelist: ["alert", "alert-error"],
+
   experimental: {
     componentIslands: true,
   },

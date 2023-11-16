@@ -11,5 +11,9 @@
     Con Inteligencia Artificial convertimos tus fotografías en poemas.
   </p>
 
-  <IndexForm />
+  <IndexForm :error="error" />
 </template>
+
+<script setup lang="ts">
+const error = useErrorCookie();
+</script>

@@ -1,5 +1,5 @@
 import type { H3Event, EventHandlerRequest } from "h3";
-import type { UploadResult } from "firebase/storage";
+import type { StringFormat, UploadResult } from "firebase/storage";
 import type { PoemPayload } from "@/models/poem";
 
 import Sharp from "sharp";
@@ -23,12 +23,22 @@ const ALLOWED_FILE_TYPES = [
   "image/jpg",
 ];
 
+export interface ErrorCookie {
+  code: ERRORS;
+  message: StringFormat;
+}
+
 function sendError(
   event: H3Event<EventHandlerRequest>,
   code: ERRORS,
   to = "/"
 ) {
-  setCookie(event, ERROR_COOKIE_NAME, ErrorMessages[code]);
+  setCookie(
+    event,
+    ERROR_COOKIE_NAME,
+    JSON.stringify({ code, message: ErrorMessages[code] } as ErrorCookie)
+  );
+
   return sendRedirect(event, to);
 }
 
