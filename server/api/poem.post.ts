@@ -1,3 +1,4 @@
+import type { H3Event, EventHandlerRequest } from "h3";
 import type { UploadResult } from "firebase/storage";
 import type { PoemPayload } from "@/models/poem";
 
@@ -12,8 +13,8 @@ import {
   uploadBytes,
   ref,
 } from "@/services/firebase";
-import { ERRORS } from "~/constants/errors";
-import { poemConverter } from "~/models/poem";
+import { ERRORS, ERROR_COOKIE_NAME, ErrorMessages } from "@/constants/errors";
+import { poemConverter } from "@/models/poem";
 
 const ALLOWED_FILE_TYPES = [
   "image/jpeg",
@@ -22,8 +23,13 @@ const ALLOWED_FILE_TYPES = [
   "image/jpg",
 ];
 
-class Poem {
-  constructor(id: string) {}
+function sendError(
+  event: H3Event<EventHandlerRequest>,
+  code: ERRORS,
+  to = "/"
+) {
+  setCookie(event, ERROR_COOKIE_NAME, ErrorMessages[code]);
+  return sendRedirect(event, to);
 }
 
 export default defineEventHandler(async (event) => {
@@ -31,7 +37,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readMultipartFormData(event);
   if (!body) {
-    return sendRedirect(event, `/?error=${ERRORS.EMPTY_BODY}`);
+    return sendError(event, ERRORS.EMPTY_BODY);
   }
 
   const file = body?.find(
@@ -42,7 +48,7 @@ export default defineEventHandler(async (event) => {
   );
 
   if (!file) {
-    return sendRedirect(event, `/?error=${ERRORS.NO_IMAGE_FIELD}`);
+    return sendError(event, ERRORS.NO_IMAGE_FIELD);
   }
 
   const image = Sharp(file.data).jpeg().resize(800, null).withMetadata();
@@ -69,8 +75,7 @@ export default defineEventHandler(async (event) => {
       contentType: "image/jpeg",
     });
   } catch (error) {
-    console.error(error);
-    return sendRedirect(event, `/?error=${ERRORS.UPLOAD_ERROR}`);
+    return sendError(event, ERRORS.UPLOAD_ERROR);
   }
 
   const payload: PoemPayload = {
@@ -81,6 +86,7 @@ export default defineEventHandler(async (event) => {
       width: imageMetadata.width,
       height: imageMetadata.height,
     },
+    poem: {},
   };
 
   try {
@@ -89,8 +95,7 @@ export default defineEventHandler(async (event) => {
       payload
     );
   } catch (error) {
-    console.error(error);
-    return sendRedirect(event, `/?error=${ERRORS.DOC_CREATION_ERROR}`);
+    return sendError(event, ERRORS.DOC_CREATION_ERROR);
   }
 
   return sendRedirect(event, `/poems/${id}`);

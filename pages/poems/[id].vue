@@ -1,13 +1,30 @@
 <template>
   <h1 class="text-2xl font-medium">Poema</h1>
 
-  <NuxtImg :src="imagePath" :width="poem.image.width" height="auto" />
+  <img
+    class="lazyload max-w-[400px] w-full"
+    height="auto"
+    :data-src="imagePath"
+    :src="poem.image.preview"
+    :width="poem.image.width"
+    :style="{
+      aspectRatio: poem.image.width / poem.image.height,
+    }"
+  />
   <p>
     {{ poem }}
   </p>
 </template>
 
 <script setup>
+useHead({
+  script: [
+    {
+      src: "/lazysizes.min.js",
+    },
+  ],
+});
+
 import { doc, firestore, getDoc } from "@/services/firebase";
 import { poemConverter } from "~/models/poem";
 

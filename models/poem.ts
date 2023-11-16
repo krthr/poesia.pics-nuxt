@@ -7,9 +7,12 @@ interface PoemImage {
   preview?: string;
 }
 
+interface PoemPoem {}
+
 export interface PoemPayload {
   id: string;
   image: PoemImage;
+  poem: PoemPoem;
 }
 
 export class Poem {
@@ -24,7 +27,9 @@ export const poemConverter = {
         path: poem.image.path,
         height: poem.image.height,
         width: poem.image.width,
+        preview: poem.image.preview,
       },
+      poem: {},
     };
   },
   fromFirestore(snapshot: DocumentSnapshot, options: any) {

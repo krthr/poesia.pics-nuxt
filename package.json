@@ -20,8 +20,10 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.0.0",
+    "@pinia/nuxt": "^0.5.1",
     "firebase": "^10.6.0",
     "nanoid": "^5.0.3",
+    "pinia": "^2.1.7",
     "sharp": "^0.32.6"
   }
 }

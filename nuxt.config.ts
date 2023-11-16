@@ -20,5 +20,5 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@nuxt/image"],
+  modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@nuxt/image", "@pinia/nuxt"],
 });
