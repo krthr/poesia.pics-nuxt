@@ -1,12 +1,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-export { uploadBytes, ref } from "firebase/storage";
 export { doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB1zKX5IGpUvBEfH97WS5n-ncFQmJr1Pgc",
+  apiKey: process.env.NUXT_FIREBASE_API_KEY,
   authDomain: "poesiapics.firebaseapp.com",
   projectId: "poesiapics",
   storageBucket: "poesiapics.appspot.com",
@@ -18,3 +17,18 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const firestore = getFirestore(app);
 export const storage = getStorage(app);
+
+export async function uploadImage(path: string, imageBuffer: Buffer) {
+  try {
+    const imageRef = ref(storage, path);
+
+    const uploadResult = await uploadBytes(imageRef, imageBuffer, {
+      cacheControl: "max-age=31536000, public",
+      contentType: "image/jpeg",
+    });
+
+    return { imagePath: uploadResult.metadata.fullPath };
+  } catch (error) {
+    return undefined;
+  }
+}

@@ -18,6 +18,12 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    openai: {
+      apiKey: "",
+    },
+  },
+
   devtools: { enabled: true },
 
   modules: ["@nuxtjs/tailwindcss", "nuxt-icon", "@nuxt/image", "@pinia/nuxt"],
