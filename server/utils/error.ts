@@ -8,7 +8,7 @@ export interface ErrorCookie {
   message: StringFormat;
 }
 
-export function sendError(
+export function sendCookieError(
   event: H3Event<EventHandlerRequest>,
   code: ERRORS,
   to = "/"
