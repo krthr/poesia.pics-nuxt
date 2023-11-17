@@ -3,7 +3,7 @@
     <AppTopbar />
 
     <div class="w-full p-5 flex align-middle justify-center flex-1">
-      <div class="w-full max-w-xl pt-20">
+      <div class="w-full max-w-xl sm:pt-5 md:pt-20">
         <NuxtPage />
       </div>
     </div>

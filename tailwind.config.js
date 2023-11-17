@@ -1,9 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
-  theme: {
-    extend: {},
-  },
   plugins: [require("daisyui")],
 
   daisyui: {
@@ -20,7 +16,7 @@ export default {
     ],
   },
 
-  safelist: ["alert", "alert-error"],
+  safelist: ["alert", "alert-error", "loading"],
 
   experimental: {
     componentIslands: true,

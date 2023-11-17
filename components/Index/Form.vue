@@ -23,7 +23,7 @@
       onchange="document.querySelector('#selectImage').setAttribute('disabled', true); form.submit()"
     />
 
-    <div class="w-full flex items-end space-x-4">
+    <div class="w-full flex flex-wrap items-end md:space-x-4 space-y-4">
       <div class="form-control flex-1">
         <div class="label-text inline-flex">Selecciona la emoción</div>
 
@@ -33,16 +33,18 @@
           id="mood"
           placeholder="Selecciona el mood"
         >
-          <option selected>Selecciona la emoción</option>
-          <option>Romance ❤️‍🔥</option>
-          <option>Erotismo 🥵</option>
-          <option>Melancolía 😥</option>
-          <option>Diversión 😂</option>
+          <option
+            v-for="mood in MOODS"
+            :key="mood.value"
+            :selected="mood.value == 'default'"
+          >
+            {{ mood.label }}
+          </option>
         </select>
       </div>
 
       <button
-        class="btn btn-primary gap-4"
+        class="btn btn-primary gap-4 w-full md:w-auto"
         id="selectImage"
         type="button"
         onclick="form.image.click()"
@@ -60,7 +62,30 @@
 </template>
 
 <script setup lang="ts">
-import type { ErrorCookie } from "~/server/api/poem.post";
+import type { ErrorCookie } from "@/server/utils/error";
 
 defineProps<{ error?: ErrorCookie }>();
+
+const MOODS = [
+  {
+    label: "La IA elige",
+    value: "default",
+  },
+  {
+    label: "Romance ❤️‍🔥",
+    value: "romance",
+  },
+  {
+    label: "Erotismo 🥵",
+    value: "erotic",
+  },
+  {
+    label: "Melancolía 😥",
+    value: "sad",
+  },
+  {
+    label: "Divetido 😂",
+    value: "fun",
+  },
+] as const;
 </script>
