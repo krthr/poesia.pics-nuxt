@@ -1,20 +1,7 @@
 <template>
-  <div class="w-full">
-    <div id="poem"></div>
+  <div id="poem"></div>
 
-    <div class="divider"></div>
-
-    <!-- <img
-      class="lazyload max-w-[400px] w-full"
-      height="auto"
-      :data-src="imagePath"
-      :src="poem.image.preview"
-      :width="poem.image.width"
-      :style="{
-        aspectRatio: poem.image.width / poem.image.height,
-      }"
-    /> -->
-  </div>
+  <div class="divider"></div>
 </template>
 
 <script setup>
@@ -37,7 +24,7 @@ const document = await getDoc(docRef);
 
 const poem = document.data();
 if (!poem) {
-  useRouter().push("/");
+  await navigateTo("/", { replace: true });
 }
 
 const imagePath = `https://storage.googleapis.com/poesiapics.appspot.com/${poem.image.path}`;
