@@ -3,20 +3,22 @@
     <div id="poem">
       <img
         class="w-full h-auto rounded-md lazyload"
-        :data-src="poem.imageFullPath"
-        :src="poem.image.preview"
+        :data-src="poem!.imageFullPath"
+        :src="poem!.image.preview"
         width="100%"
         height="auto"
       />
 
       <h1
         id="caption"
-        class="mb-10 mt-5 font-serif font-light italic text-center"
+        class="mb-10 mt-5 font-serif font-light italic text-center text-xl"
       >
-        Caption
+        {{ poem!.poem.caption }}
       </h1>
 
-      <p class="whitespace-pre-wrap font-serif my-5">Poem poema</p>
+      <p class="whitespace-pre-wrap font-serif text-lg my-5">
+        {{ poem!.poem.content }}
+      </p>
     </div>
 
     <div class="divider"></div>
@@ -36,7 +38,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 useHead({
   script: [
     {

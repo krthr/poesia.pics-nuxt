@@ -1,9 +1,13 @@
-import type { PoemPayload } from "@/models/poem";
-
 import { nanoid } from "nanoid";
 import { sendCookieError } from "../utils/error";
 
-import { firestore, doc, setDoc, uploadImage } from "@/services/firebase";
+import {
+  Timestamp,
+  firestore,
+  doc,
+  setDoc,
+  uploadImage,
+} from "@/services/firebase";
 import { ERRORS } from "@/constants/errors";
 import { generatePoem } from "@/server/services/poem";
 import { poemConverter } from "@/models/poem";
@@ -23,6 +27,11 @@ export default defineEventHandler(async (event) => {
     return sendCookieError(event, ERRORS.IMAGE_PROCESS_ERROR);
   }
 
+  const generatePoemResult = await generatePoem(parseImageResult.imageBase64);
+  if (!generatePoemResult) {
+    return sendCookieError(event, ERRORS.POEM_GENERATION_ERROR);
+  }
+
   const uploadResult = await uploadImage(
     `poems/images/${id}.jpg`,
     parseImageResult.imageBuff
@@ -31,7 +40,7 @@ export default defineEventHandler(async (event) => {
     return sendCookieError(event, ERRORS.UPLOAD_ERROR);
   }
 
-  const payload: PoemPayload = {
+  const payload = {
     id,
     image: {
       path: uploadResult.imagePath,
@@ -39,7 +48,12 @@ export default defineEventHandler(async (event) => {
       width: parseImageResult.width,
       height: parseImageResult.height,
     },
-    poem: {},
+    poem: {
+      content: generatePoemResult.content,
+      mood: "",
+      caption: generatePoemResult.title,
+    },
+    createdAt: Timestamp.now(),
   };
 
   try {

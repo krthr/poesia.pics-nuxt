@@ -1,4 +1,8 @@
-import type { DocumentSnapshot } from "firebase/firestore";
+import type {
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+  Timestamp,
+} from "firebase/firestore";
 
 interface PoemImage {
   path: string;
@@ -17,7 +21,7 @@ export interface PoemPayload {
   id: string;
   image: PoemImage;
   poem: PoemPoem;
-  createdAt: Date;
+  createdAt: Timestamp;
 }
 
 export class Poem implements PoemPayload {
@@ -25,7 +29,7 @@ export class Poem implements PoemPayload {
     public id: string,
     public image: PoemImage,
     public poem: PoemPoem,
-    public createdAt: Date
+    public createdAt: Timestamp
   ) {}
 
   public get imageFullPath() {
@@ -34,7 +38,7 @@ export class Poem implements PoemPayload {
 }
 
 export const poemConverter = {
-  toFirestore(poem: PoemPayload): PoemPayload {
+  toFirestore(poem: any) {
     return {
       id: poem.id,
       image: {
@@ -51,7 +55,10 @@ export const poemConverter = {
       createdAt: poem.createdAt,
     };
   },
-  fromFirestore(snapshot: DocumentSnapshot, options: any) {
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot,
+    options: SnapshotOptions
+  ): Poem {
     const data = snapshot.data(options)!;
     return new Poem(data.name, data.image, data.poem, data.createdAt);
   },

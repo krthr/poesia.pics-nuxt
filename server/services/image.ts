@@ -1,6 +1,6 @@
 import Sharp from "sharp";
 
-async function bufferToBase64(buffer: Buffer) {
+function bufferToBase64(buffer: Buffer) {
   return `data:image/jpeg;base64,` + buffer.toString("base64");
 }
 

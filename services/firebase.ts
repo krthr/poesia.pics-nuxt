@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
-export { doc, getDoc, setDoc } from "firebase/firestore";
+export { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NUXT_FIREBASE_API_KEY,
